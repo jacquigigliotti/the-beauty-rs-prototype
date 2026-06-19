@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Beauty RS Clickable Prototype v3</title>
+<style>
+:root{
+  --black:#111111;
+  --rose:#B78F88;
+  --rose-soft:#C8A29A;
+  --ivory:#F8F4F1;
+  --cream:#FFF9F6;
+  --line:#EADBD6;
+  --taupe:#9D7A73;
+  --text:#111111;
+  --muted:#806962;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#F8F4F1;font-family:-apple-system,BlinkMacSystemFont,"Avenir Next",Arial,sans-serif;color:#111}
+body{display:flex;align-items:center;justify-content:center;padding:14px}
+.phone{
+  width:min(390px,100vw);
+  height:min(820px,100vh);
+  background:#FFF9F6;
+  border:10px solid #111111;
+  border-radius:46px;
+  overflow:hidden;
+  box-shadow:0 22px 70px rgba(0,0,0,.25);
+  position:relative;
+}
+.screen{
+  display:none;
+  height:100%;
+  padding:30px 26px;
+  flex-direction:column;
+  overflow:hidden;
+}
+.screen.scroll{overflow-y:auto}
+.screen.active{display:flex}
+.dark{background:#111111;color:#fff}
+.logo{text-align:center;color:#B78F88;margin-top:70px}
+.icon{
+  width:140px;height:140px;border:3px solid #B78F88;border-radius:34px;
+  margin:0 auto 34px;display:flex;align-items:center;justify-content:center;
+  background:#111111;box-shadow:none;
+}
+.icon span{font-family:Georgia,serif;font-size:86px;line-height:1;color:#B78F88}
+.the{font-size:13px;letter-spacing:.45em;font-weight:600}
+.brand{font-family:Georgia,serif;font-size:42px;letter-spacing:.16em;margin-top:6px}
+.brand sup{font-size:12px;vertical-align:top;margin-left:-4px;position:relative;top:2px}
+.tagline{margin-top:42px;text-align:center;font-size:20px;font-style:italic;font-weight:300;line-height:1.5;color:#D9C7C1;font-family:Georgia,serif}
+button{
+  appearance:none;
+  border:0;
+  border-radius:22px;
+  padding:17px 18px;
+  width:100%;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  background:#111111;
+  color:white;
+  margin-top:10px;
+}
+.dark button{background:#B78F88;color:#111111}
+button.secondary{background:#EFE3DF;color:#111111}
+.dark button.secondary{background:#1f1918;color:#F8F4F1;border:1px solid rgba(183,143,136,.35)}
+.bottom{margin-top:auto}
+.free{text-align:center;margin-top:14px;font-size:13px;color:#9f8b86}
+h1{font-size:31px;line-height:1.08;margin:10px 0 12px;letter-spacing:-.02em}
+h2{font-size:25px;margin:8px 0 10px}
+h3{font-size:18px;margin:0 0 5px}
+p{font-size:16px;line-height:1.45;color:#4d4340;margin:0 0 16px}
+.dark p{color:#d8c4be;text-align:center}
+.scanbox{
+  height:240px;border-radius:32px;border:2px dashed #B78F88;background:#fff;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;color:#9D7A73;
+  font-weight:800;margin:24px 0 16px;box-shadow:none;
+}
+.barcode{font-size:44px;letter-spacing:-8px;margin-bottom:18px;color:#111111}
+.tip{padding:14px 15px;border-radius:18px;background:#f1e5e1;color:#5f4b46;font-size:14px;line-height:1.35}
+.card{background:#fff;border:1px solid #EADBD6;border-radius:24px;padding:17px;margin:10px 0;box-shadow:none;text-align:left;color:#111}
+.card.tinted{background:#F8F4F1}
+.product{display:flex;gap:14px;align-items:center}
+.prodimg{width:72px;height:92px;border-radius:16px;background:#B78F88;border:1px solid #B78F88}
+.label{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#B78F88;font-weight:900;margin-bottom:6px}
+.small{font-size:13.5px;color:#806962;line-height:1.35}
+input{width:100%;height:52px;border:1px solid #EADBD6;border-radius:17px;background:#fff;padding:0 15px;font-size:15.5px;margin:8px 0;outline:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.stat{background:white;border:1px solid #EADBD6;border-radius:20px;padding:15px;text-align:center;color:#111}
+.stat b{display:block;font-size:25px}
+.nav{display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid #EADBD6;padding:12px 4px;margin:0 -26px -30px;color:#9D7A73;font-size:12px;font-weight:700}
+.nav button{background:none;color:#9D7A73;margin:0;padding:4px;width:auto;border-radius:0;font-size:12px}
+.topbar{display:flex;gap:10px;align-items:center;margin-bottom:18px}
+.back{width:auto!important;padding:10px 13px!important;border-radius:14px!important;background:#f1e5e1!important;color:#111!important;margin:0!important}
+.row{background:none!important;color:#111!important;margin:0!important;padding:12px 0!important;border-radius:0!important;border-bottom:1px solid #f0e3df!important;text-align:left!important;display:flex;gap:12px;align-items:center}
+.thumb{width:48px;height:58px;border-radius:12px;background:#B78F88}
+.heroMini{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.miniIcon{width:42px;height:42px;border-radius:12px;background:#111;color:#B78F88;border:1.5px solid #B78F88;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:24px}
+.summary{background:#111;color:#F8F4F1;border-radius:26px;padding:18px;margin:4px 0 14px}
+.summary h2{margin:0 0 6px;color:#fff}
+.summary p{color:#D9C7C1;font-size:14px;margin:0}
+.feature{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #EADBD6;border-radius:22px;padding:14px;margin:9px 0;text-align:left;color:#111}
+.feature .emoji{width:34px;height:34px;border-radius:12px;background:#F1E5E1;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.feature span{font-size:13px;color:#806962;display:block;margin-top:2px;line-height:1.3}
+.locked{opacity:.72}
+.badge{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:#111;color:#B78F88;border-radius:99px;padding:5px 8px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <section class="screen active dark" id="landing">
+    <div class="logo">
+      <div class="icon"><span>RS</span></div>
+      <div class="the">THE</div>
+      <div class="brand">BEAUTY RS<sup>™</sup></div>
+    </div>
+    <div class="tagline">Build, Grow and<br>Rediscover Your Collection.</div>
+    <div class="bottom">
+      <button data-go="scan">Scan your first product</button>
+      <button class="secondary" data-go="login">I already have an account</button>
+      <div class="free">Free to get started</div>
+    </div>
+  </section>
+
+  <section class="screen" id="scan">
+    <h1>Scan before the box goes.</h1>
+    <p>Point your camera at the barcode on your product packaging.</p>
+    <button class="scanbox" data-go="found">
+      <div class="barcode">||||||||||||</div>
+      <div>Tap to simulate scan</div>
+    </button>
+    <div class="tip"><b>Beauty RS Tip:</b> Scan products before throwing away the box so barcode, ingredients, expiry and how-to-use details stay with you.</div>
+    <div class="bottom"><button class="secondary" data-go="landing">Back</button></div>
+  </section>
+
+  <section class="screen" id="found">
+    <h1>Product found.</h1>
+    <div class="card product">
+      <div class="prodimg"></div>
+      <div><b>Estée Lauder</b><br>Double Wear Stay-in-Place Makeup<br><span class="small">Shade: 2N1 Desert Beige</span></div>
+    </div>
+    <div class="card tinted"><div class="label">Auto-filled</div><span class="small">Brand, product name, category, image and barcode. You can add shade, expiry, notes and rating next.</span></div>
+    <div class="bottom">
+      <button data-go="review">Add to my library</button>
+      <button class="secondary" data-go="scan">Back</button>
+    </div>
+  </section>
+
+  <section class="screen" id="review">
+    <h1>Review your product.</h1>
+    <div class="card"><div class="label">Product</div><b>Estée Lauder Double Wear</b><br><span class="small">Complexion · Foundation · 2N1 Desert Beige</span></div>
+    <div class="card"><div class="label">Optional details</div><span class="small">Purchase date, expiry, stock level, rating, location and personal notes can be added now or later.</span></div>
+    <p>To save this product to your personal Beauty RS library, create your free Starter account.</p>
+    <div class="bottom">
+      <button data-go="signup">Save product</button>
+      <button class="secondary" data-go="found">Back</button>
+    </div>
+  </section>
+
+  <section class="screen" id="signup">
+    <h1>Create your free Starter account.</h1>
+    <p>Your first product is ready to save.</p>
+    <input placeholder="Name">
+    <input placeholder="Email">
+    <input placeholder="Password" type="password">
+    <div class="tip">Starter includes barcode scanning, inventory management and expiry tracking up to your free product limit.</div>
+    <div class="bottom">
+      <button data-go="overview">Create free account</button>
+      <button class="secondary" data-go="review">Back</button>
+    </div>
+  </section>
+
+  <section class="screen dark" id="login">
+    <div class="icon" style="width:96px;height:96px;margin-top:46px"><span style="font-size:60px">RS</span></div>
+    <h1>Welcome back.</h1>
+    <input placeholder="Email">
+    <input placeholder="Password" type="password">
+    <div class="bottom">
+      <button data-go="overview">Log in</button>
+      <button class="secondary" data-go="landing">Back</button>
+    </div>
+  </section>
+
+  <section class="screen scroll" id="overview">
+    <div class="heroMini">
+      <div class="miniIcon">RS</div>
+      <div><div class="label">THE BEAUTY RS™</div><b>Your collection starts here.</b></div>
+    </div>
+    <div class="summary">
+      <h2>Product saved.</h2>
+      <p>Your first item is now in your personal beauty and skincare inventory.</p>
+    </div>
+
+    <button class="feature" data-go="home">
+      <div class="emoji">🏠</div>
+      <div><b>Home Dashboard</b><span>See collection totals, expiring products, recently added items and quick actions.</span></div>
+    </button>
+
+    <button class="feature" data-go="inventory">
+      <div class="emoji">💄</div>
+      <div><b>My Inventory</b><span>Browse products by makeup, skincare, brand, shade, category and more.</span></div>
+    </button>
+
+    <button class="feature" data-go="search">
+      <div class="emoji">🔎</div>
+      <div><b>Search Before You Buy</b><span>Check whether you already own a product, shade or similar item while shopping.</span></div>
+    </button>
+
+    <button class="feature" data-go="product">
+      <div class="emoji">📦</div>
+      <div><b>Product Detail</b><span>Keep shade, expiry, notes and how-to-use instructions after the box is gone.</span></div>
+    </button>
+
+    <button class="feature locked" data-go="ai">
+      <div class="emoji">✨</div>
+      <div><b>AI Beauty Assistant</b><span>Create looks and skincare routines using products already in your stash.</span><span class="badge">Future Premium</span></div>
+    </button>
+
+    <div class="bottom"><button data-go="home">Go to my dashboard</button></div>
+  </section>
+
+  <section class="screen" id="home">
+    <h1>Welcome, Jac ♡</h1>
+    <input placeholder="Search brand, shade, product..." data-go="search" readonly>
+    <div class="grid">
+      <button class="stat" data-go="inventory"><b>1</b><span class="small">Total products</span></button>
+      <button class="stat" data-go="expiry"><b>0</b><span class="small">Expiring soon</span></button>
+      <button class="stat" data-go="makeup"><b>1</b><span class="small">Makeup</span></button>
+      <button class="stat" data-go="skincare"><b>0</b><span class="small">Skincare</span></button>
+    </div>
+    <button class="card product" data-go="product">
+      <div class="prodimg"></div><div><b>Double Wear</b><br><span class="small">2N1 Desert Beige · Saved today</span></div>
+    </button>
+    <div class="bottom"><button data-go="scan">Scan another product</button></div>
+    <div class="nav"><button data-go="home">Home</button><button data-go="inventory">Inventory</button><button data-go="scan">Scan</button><button data-go="search">Search</button></div>
+  </section>
+
+  <section class="screen" id="inventory">
+    <div class="topbar"><button class="back" data-go="overview">‹</button><h2>My Inventory</h2></div>
+    <div class="card tinted"><div class="label">Filters</div><span class="small">Brand · Product · Shade · Category · Colour Family · Expiry</span></div>
+    <button class="row" data-go="product"><div class="thumb"></div><div><b>Estée Lauder Double Wear</b><br><span class="small">Foundation · 2N1 Desert Beige</span></div></button>
+  </section>
+
+  <section class="screen" id="product">
+    <div class="topbar"><button class="back" data-go="overview">‹</button><h2>Product Detail</h2></div>
+    <div class="card product"><div class="prodimg"></div><div><b>Estée Lauder</b><br>Double Wear<br><span class="small">2N1 Desert Beige</span></div></div>
+    <div class="card"><div class="label">How to use</div><span class="small">Apply to skin using fingertips, sponge or foundation brush. Build coverage as needed.</span></div>
+    <div class="card"><div class="label">Your notes</div><span class="small">Good long-wear foundation. Check shade before buying again.</span></div>
+    <div class="bottom"><button data-go="scan">Add another product</button></div>
+  </section>
+
+  <section class="screen" id="search">
+    <div class="topbar"><button class="back" data-go="overview">‹</button><h2>Search</h2></div>
+    <input placeholder="Try: Estée Lauder, 2N1, foundation">
+    <div class="card tinted"><b>Search by</b><br><span class="small">Brand · Product · Shade · Category · Colour family</span></div>
+    <button class="card product" data-go="product"><div class="prodimg"></div><div><b>Double Wear</b><br><span class="small">2N1 Desert Beige</span></div></button>
+  </section>
+
+  <section class="screen" id="expiry">
+    <div class="topbar"><button class="back" data-go="home">‹</button><h2>Expiring Soon</h2></div>
+    <div class="card"><b>No products expiring soon.</b><br><span class="small">The Beauty RS™ will remind you before products expire.</span></div>
+  </section>
+
+  <section class="screen" id="makeup">
+    <div class="topbar"><button class="back" data-go="home">‹</button><h2>Makeup</h2></div>
+    <button class="card product" data-go="product"><div class="prodimg"></div><div><b>Complexion</b><br><span class="small">1 foundation saved</span></div></button>
+  </section>
+
+  <section class="screen" id="skincare">
+    <div class="topbar"><button class="back" data-go="home">‹</button><h2>Skincare</h2></div>
+    <div class="card"><b>No skincare yet.</b><br><span class="small">Scan your first skincare product to start building your routine library.</span></div>
+    <div class="bottom"><button data-go="scan">Scan skincare product</button></div>
+  </section>
+
+  <section class="screen" id="ai">
+    <div class="topbar"><button class="back" data-go="overview">‹</button><h2>AI Beauty Assistant</h2></div>
+    <div class="card tinted"><b>Future Premium Feature</b><br><span class="small">Ask things like: "My skin feels dry and sensitive tonight. What should I use from my collection?"</span></div>
+    <div class="card"><div class="label">Example output</div><span class="small">A calming routine using products you already own, with layering order and products to avoid tonight.</span></div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  let current = 'landing';
+  function show(id){
+    const currentEl = document.getElementById(current);
+    const nextEl = document.getElementById(id);
+    if(!nextEl) return;
+    currentEl.classList.remove('active');
+    nextEl.classList.add('active');
+    current = id;
+  }
+  document.addEventListener('click', function(e){
+    const target = e.target.closest('[data-go]');
+    if(target){
+      e.preventDefault();
+      show(target.getAttribute('data-go'));
+    }
+  }, {passive:false});
+})();
+</script>
+</body>
+</html>
